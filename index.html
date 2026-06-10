@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes"/>
+  <title>Cangaceiros • Lojinha</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+  <!-- TOGGLE TEMA -->
+  <button class="theme-toggle" onclick="toggleTema()" aria-label="Alternar tema">
+    <span class="theme-icon-light">☀️</span>
+    <span class="theme-icon-dark">🌙</span>
+  </button>
+
+  <!-- BANNER IMAGEM PURA (1341x216) -->
+  <div class="banner-wrapper">
+    <img src="img/banner1.jpg" alt="Cangaceiros" class="banner-imagem" onerror="this.style.display='none'"/>
+    <div class="banner-carrinho" onclick="abrirCarrinho()">
+      <span>🛒</span>
+      <span class="carrinho-badge" id="carrinhoBadge">0</span>
+    </div>
+  </div>
+
+  <!-- TÍTULO DA LOJA (FORA DO BANNER) -->
+  <div class="loja-header">
+    <div class="loja-header-conteudo">
+      <h1>LOJINHA A.A.A CANGACEIROS</h1>
+      <p>Produtos oficiais da maior atlética do agreste</p>
+    </div>
+  </div>
+
+  <!-- BANNER DE AVISO -->
+  <div class="banner-aviso">
+    <div class="banner-aviso-conteudo">
+      <div class="aviso-item">
+        <span class="aviso-icone">⚠️</span>
+        <div>
+          <strong>Não atletas</strong>
+          <p>Compras devem ser feitas diretamente pelo WhatsApp</p>
+        </div>
+      </div>
+      <div class="aviso-item">
+        <span class="aviso-icone">🏃</span>
+        <div>
+          <strong>Atletas</strong>
+          <p>Já tem camisa e quer repetir o número? Entre em contato:</p>
+        </div>
+      </div>
+      <a href="https://wa.me/5587981579193?text=Ol%C3%A1!%20Quero%20comprar%20uma%20camisa%20da%20Atl%C3%A9tica%20Cangaceiros." target="_blank" class="btn-wpp-banner">
+        📞 (87) 98157-9193
+      </a>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="conteudo">
+
+    <!-- TÍTULO DA SEÇÃO -->
+    <div class="secao-titulo-wrapper">
+      <div class="secao-titulo">
+        <h2>Nossos Produtos</h2>
+        <p>Clique para adicionar ao carrinho</p>
+      </div>
+
+      <!-- GRADE DE PRODUTOS -->
+      <section class="produtos-grid" id="produtosGrid">
+        <!-- Preenchido via JS -->
+      </section>
+    </div>
+
+    <!-- PAINEL DO CARRINHO -->
+    <aside class="carrinho-painel" id="carrinhoPainel">
+      <div class="carrinho-painel-header">
+        <h2>🛒 Seu Carrinho</h2>
+        <button class="carrinho-fechar" onclick="fecharCarrinho()">✕</button>
+      </div>
+      <div class="carrinho-itens" id="carrinhoItens">
+        <p class="carrinho-vazio">Nenhum item adicionado ainda</p>
+      </div>
+      <div class="carrinho-resumo" id="carrinhoResumo" style="display:none;">
+        <div class="resumo-linha">
+          <span>Subtotal</span>
+          <span id="subtotal">R$ 0,00</span>
+        </div>
+        <button class="btn-finalizar" onclick="irParaCheckout()">
+          Finalizar Pedido • <span id="totalFinal">R$ 0,00</span>
+        </button>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- RODAPÉ -->
+  <footer class="rodape">
+    <div class="rodape-conteudo">
+      <p class="rodape-slogan">🦎 O CANGAÇO DOMINA! 🦎</p>
+      <p class="rodape-copy">© 2024 A.A.A Cangaceiros • Todos os direitos reservados</p>
+    </div>
+  </footer>
+
+  <!-- CHECKOUT OVERLAY -->
+  <div class="checkout-overlay" id="checkoutOverlay" style="display:none;">
+    <div class="checkout-container">
+      <button class="checkout-voltar" onclick="voltarParaLoja()">← Voltar para loja</button>
+      <h2>Finalizar Pedido</h2>
+
+      <div class="checkout-resumo" id="checkoutResumo"></div>
+
+      <div class="card">
+        <label>🧑 Nome completo</label>
+        <input id="nome" type="text" placeholder="Seu nome completo"/>
+
+        <label>📞 Telefone / WhatsApp</label>
+        <input id="telefone" type="text" placeholder="(DDD) 9XXXX-XXXX"/>
+
+        <label>👕 Categoria</label>
+        <select id="categoria" onchange="carregarNumeros()">
+          <option value="M">Masculino</option>
+          <option value="F">Feminino</option>
+        </select>
+
+        <label>✍️ Nome na camisa (se aplicável)</label>
+        <input id="nomeCamisa" type="text" placeholder="Nome para personalizar"/>
+
+        <label>🔢 Número da camisa</label>
+        <select id="numero">
+          <option>Carregando...</option>
+        </select>
+
+        <label>💳 Forma de pagamento</label>
+        <select id="pagamento" onchange="trocarPagamento()">
+          <option value="pix">Pix</option>
+          <option value="cartao">Cartão (encaminhado ao WhatsApp)</option>
+        </select>
+
+        <div id="pixBox">
+          <div class="pix-info">
+            <p>📱 Chave: <strong>atletica.uabj@gmail.com</strong></p>
+            <p>👤 Titular: <strong>Jorge Candido Dias Neto</strong></p>
+          </div>
+          <label>📎 Comprovante Pix (obrigatório)</label>
+          <input type="file" id="comprovante" accept="image/*"/>
+        </div>
+
+        <div id="cartaoBox" style="display:none;">
+          <p class="cartao-aviso">💬 Ao finalizar, você será direcionado ao WhatsApp para concluir o pagamento.</p>
+        </div>
+
+        <button id="btn" onclick="enviarPedido()">Confirmar Pedido</button>
+        <p id="msg"></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
