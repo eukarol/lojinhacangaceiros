@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbxo6MjRNAFEoN6tEb0pHmA4IK6ZIbWCUUdGTgd42RCaEcSOKJ8RiA_HoCXM1IovjDOMow/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzGyK0i1CiSAHM8S72_S7WOKFc2Q1eq7AMj7Ehyw476oDfJXmv2PoINhfcqtUEHcmq6Cg/exec";
 
 let ocupados = [];
 let carrinho = [];
