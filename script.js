@@ -12,7 +12,7 @@ const produtos = [
   { id: "tirante", nome: "Tirante", preco: 15, img: "img/tirante.jpg", desc: "Tirante elástico" },
   { id: "kit", nome: "Kit", preco: 40, img: "img/kit.jpg", desc: "Kit completo de acessórios" },
   { id: "kit-atleta", nome: "Kit Atleta", preco: 150, img: "img/kit-atleta.jpg", desc: "Kit exclusivo para atletas" },
-  { id: "bucket", nome: "Bucket", preco: 45, img: "img/bucket.jpg", desc: "Bucket personalizado" }
+  { id: "bucket", nome: "Bucket", preco: 30, img: "img/bucket.jpg", desc: "Bucket personalizado" }
 ];
 
 /* ========== INIT ========== */
