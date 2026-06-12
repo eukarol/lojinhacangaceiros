@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbwO1wNzGmj-DpfjfFqpKcAhof4TEjEG4uZ-I68tq-x5j8lBgt4EzbVwghSNBTkqvT7dMQ/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbwD-oxumRBcYtbmSBCT4cGiMohyv97r6fTLOyviuRTw91rOg7tDxKu1QKwJqDX8Qmo9Sg/exec";
 
 let ocupados = [];
 let carrinho = [];
@@ -12,7 +12,7 @@ const produtos = [
   { id: "tirante", nome: "Tirante", preco: 15, img: "img/tirante.jpg", desc: "Tirante elástico" },
   { id: "kit", nome: "Kit", preco: 40, img: "img/kit.jpg", desc: "Kit completo de acessórios" },
   { id: "kit-atleta", nome: "Kit Atleta", preco: 150, img: "img/kit-atleta.jpg", desc: "Kit exclusivo para atletas" },
-  { id: "bucket", nome: "Bucket", preco: 30, img: "img/bucket.jpg", desc: "Bucket personalizado" }
+  { id: "bucket", nome: "Bucket", preco: 45, img: "img/bucket.jpg", desc: "Bucket personalizado" }
 ];
 
 /* ========== INIT ========== */
@@ -326,6 +326,7 @@ async function enviarPedido() {
   const souAtleta = document.getElementById("souAtleta").checked;
   const repetirNumero = document.getElementById("repetirNumero").checked;
   const nomeCamisa = document.getElementById("nomeCamisa").value.trim();
+  const tamanho = document.getElementById("tamanho").value;
   const pagamento = document.getElementById("pagamento").value;
 
   let categoria, numero;
@@ -356,11 +357,68 @@ async function enviarPedido() {
     return;
   }
 
+  // Se for cartão, salva o pedido e redireciona para WhatsApp
   if (pagamento === "cartao") {
-    window.open("https://wa.me/5581989413959?text=Quero%20fazer%20um%20pedido%20da%20Atl%C3%A9tica", "_blank");
+    const produtosPedido = carrinho.map(c => `${c.nome} x${c.qtd}`).join(", ");
+    const totalPedido = carrinho.reduce((s, c) => s + (c.preco * c.qtd), 0);
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          nome,
+          telefone,
+          categoria,
+          tipoCamisa: "",
+          nomeCamisa,
+          produto: produtosPedido,
+          tamanho,
+          numero,
+          tirantesExtras: "0",
+          pagamento: "Cartão",
+          comprovante: "",
+          souAtleta,
+          repetirNumero
+        })
+      });
+
+      const data = await res.json();
+      if (data.sucesso) {
+        document.getElementById("checkoutOverlay").style.display = "none";
+        
+        msg.innerText = "";
+        carrinho = [];
+        atualizarCarrinho();
+        renderizarProdutos();
+        document.getElementById("nome").value = "";
+        document.getElementById("telefone").value = "";
+        document.getElementById("nomeCamisa").value = "";
+        
+        // Monta mensagem para WhatsApp com dados do pedido
+        const mensagemWpp = `Olá! Finalizei meu pedido na Lojinha Cangaceiros e quero pagar com cartão.%0A%0A` +
+          `*Nome:* ${nome}%0A` +
+          `*Telefone:* ${telefone}%0A` +
+          `*Produtos:* ${produtosPedido}%0A` +
+          `*Tamanho:* ${tamanho}%0A` +
+          `*Número:* ${numero !== 0 ? numero : 'Não se aplica'}%0A` +
+          `*Nome na camisa:* ${nomeCamisa || 'Não informado'}%0A` +
+          `*Total:* R$ ${totalPedido.toFixed(2)}%0A%0A` +
+          `Aguardo contato para finalizar o pagamento! 🦎`;
+        
+        window.open(`https://wa.me/5581989413959?text=${mensagemWpp}`, "_blank");
+      } else {
+        msg.innerText = data.mensagem || "❌ Erro ao salvar pedido";
+        msg.style.color = "#c44";
+      }
+    } catch (err) {
+      console.error(err);
+      msg.innerText = "❌ Erro ao enviar pedido";
+      msg.style.color = "#c44";
+    }
     return;
   }
 
+  // Pagamento via PIX
   const file = document.getElementById("comprovante").files[0];
   if (pagamento === "pix" && !file) {
     msg.innerText = "❌ Envie o comprovante do PIX.";
@@ -383,7 +441,7 @@ async function enviarPedido() {
         tipoCamisa: "",
         nomeCamisa,
         produto: produtosPedido,
-        tamanho: "Verificar",
+        tamanho,
         numero,
         tirantesExtras: "0",
         pagamento,
@@ -395,7 +453,6 @@ async function enviarPedido() {
 
     const data = await res.json();
     if (data.sucesso) {
-      // Fecha o checkout e mostra tela de sucesso
       document.getElementById("checkoutOverlay").style.display = "none";
       document.getElementById("sucessoOverlay").style.display = "flex";
       
