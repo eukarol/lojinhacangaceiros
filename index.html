@@ -17,7 +17,7 @@
 
   <!-- BANNER IMAGEM PURA (3797x1688) -->
   <div class="banner-wrapper">
-    <img src="img/banner1.jpg" alt="Cangaceiros" class="banner-imagem" onerror="this.style.display='none'"/>
+    <img src="img/logo-atletica.jpg" alt="Cangaceiros" class="banner-imagem" onerror="this.style.display='none'"/>
     <div class="banner-carrinho" onclick="abrirCarrinho()">
       <span>🛒</span>
       <span class="carrinho-badge" id="carrinhoBadge">0</span>
@@ -27,8 +27,8 @@
   <!-- TÍTULO DA LOJA -->
   <div class="loja-header">
     <div class="loja-header-conteudo">
-      <h1>🦎 LOJINHA A.A.A CANGACEIROS 🦎</h1>
-      <p>Produtos oficiais da maior atlética do agreste pernambucano</p>
+      <h1>LOJINHA A.A.A CANGACEIROS</h1>
+      <p>Produtos oficiais da maior atlética do agreste</p>
     </div>
   </div>
 
@@ -77,7 +77,7 @@
           📞 (87) 98157-9193
         </a>
       </div>
-      <p class="rodape-copy">© 2026 A.A.A Cangaceiros • Todos os direitos reservados</p>
+      <p class="rodape-copy">© 2024 A.A.A Cangaceiros • Todos os direitos reservados</p>
     </div>
   </footer>
 
@@ -146,13 +146,24 @@
           </select>
         </div>
 
+        <label>📏 Tamanho da camisa</label>
+        <select id="tamanho">
+          <option value="P">P</option>
+          <option value="M">M</option>
+          <option value="G">G</option>
+          <option value="GG">GG</option>
+          <option value="XG">XG</option>
+          <option value="XGG">XGG</option>
+          <option value="Não se aplica">Não se aplica</option>
+        </select>
+
         <label>✍️ Nome na camisa (se aplicável)</label>
         <input id="nomeCamisa" type="text" placeholder="Nome para personalizar"/>
 
         <label>💳 Forma de pagamento</label>
         <select id="pagamento" onchange="trocarPagamento()">
           <option value="pix">Pix</option>
-          <option value="cartao">Cartão (encaminhado ao WhatsApp)</option>
+          <option value="cartao">Cartão (encaminhado ao Infinity Pay)</option>
         </select>
 
         <!-- PIX -->
@@ -176,7 +187,7 @@
 
         <!-- CARTÃO -->
         <div id="cartaoBox" style="display:none;">
-          <p class="cartao-aviso">💬 Ao finalizar, você será direcionado ao WhatsApp para concluir o pagamento.</p>
+          <p class="cartao-aviso">💬 Você será redirecionado para o Infinity Pay para concluir o pagamento com cartão.</p>
         </div>
 
         <button id="btn" onclick="enviarPedido()">Confirmar Pedido</button>
@@ -190,7 +201,7 @@
     <div class="sucesso-container">
       <div class="sucesso-icone">✅</div>
       <h2>Pagamento Registrado!</h2>
-      <p class="sucesso-mensagem">Seu pagamento foi realizado.</p>
+      <p class="sucesso-mensagem">Seu pedido foi recebido com sucesso.</p>
       <p class="sucesso-mensagem">Iremos entrar em contato para confirmar seu pedido pelo WhatsApp.</p>
       <p class="sucesso-mensagem">Fique de olho no seu telefone! 📱</p>
       <button class="btn-voltar-loja" onclick="voltarParaLojaPosSucesso()">Voltar para Loja</button>
