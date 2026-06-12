@@ -88,7 +88,7 @@ body {
 .banner-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 3797 / 1688;
+  aspect-ratio: 1341 / 216;
   overflow: hidden;
   border-bottom: 3px solid var(--destaque);
 }
@@ -644,7 +644,7 @@ label {
   color: var(--texto-claro);
 }
 
-input, select, textarea {
+input, select {
   width: 100%;
   padding: 11px 14px;
   margin-top: 5px;
@@ -659,20 +659,15 @@ input, select, textarea {
   font-family: 'Inter', sans-serif;
 }
 
-input:focus, select:focus, textarea:focus {
+input:focus, select:focus {
   border-color: var(--destaque);
   box-shadow: 0 0 0 3px rgba(196, 166, 74, 0.15);
 }
 
-input::placeholder, textarea::placeholder {
+input::placeholder {
   color: var(--texto-claro);
   opacity: 0.7;
   font-weight: 400;
-}
-
-textarea {
-  resize: vertical;
-  min-height: 60px;
 }
 
 input[type="file"] {
@@ -828,14 +823,6 @@ input[type="file"]::file-selector-button {
   margin-top: 10px;
   color: var(--texto-claro);
   border-left: 3px solid var(--destaque);
-}
-
-/* ========== OPTIONS DESABILITADOS ========== */
-select option:disabled {
-  color: #999 !important;
-  background-color: transparent;
-  font-style: italic;
-  opacity: 0.6;
 }
 
 button {
