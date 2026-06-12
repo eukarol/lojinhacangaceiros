@@ -160,6 +160,9 @@
         <label>✍️ Nome na camisa (se aplicável)</label>
         <input id="nomeCamisa" type="text" placeholder="Nome para personalizar"/>
 
+        <label>📝 Observações (opcional)</label>
+        <textarea id="observacao" rows="3" placeholder="Alguma informação adicional para o seu pedido..."></textarea>
+
         <label>💳 Forma de pagamento</label>
         <select id="pagamento" onchange="trocarPagamento()">
           <option value="pix">Pix</option>
@@ -185,14 +188,11 @@
           <input type="file" id="comprovante" accept="image/*"/>
         </div>
 
-        
         <!-- CARTÃO -->
         <div id="cartaoBox" style="display:none;">
           <p class="cartao-aviso">💬 Ao finalizar, você será direcionado ao WhatsApp para concluir o pagamento.</p>
         </div>
-         
-        <label>📝 Observações (opcional)</label>
-        <textarea id="observacao" rows="3" placeholder="Alguma informação adicional para o seu pedido..." style="width:100%; padding:11px 14px; margin-top:5px; border-radius:8px; border:1px solid var(--borda); background:var(--bg-input); color:var(--texto); font-weight:500; font-size:0.88rem; outline:none; transition:border-color 0.15s, box-shadow 0.15s; font-family:'Inter', sans-serif; resize:vertical;"></textarea>
+
         <button id="btn" onclick="enviarPedido()">Confirmar Pedido</button>
         <p id="msg"></p>
       </div>
