@@ -266,14 +266,24 @@ async function carregarNumeros() {
     ocupados = await res.json();
     const categoria = document.getElementById("categoria").value;
     select.innerHTML = "";
+    
     for (let i = 1; i <= 100; i++) {
       const chave = categoria + "-" + i;
-      if (!ocupados.includes(chave)) {
-        const opt = document.createElement("option");
-        opt.value = i;
+      const ocupado = ocupados.includes(chave);
+      
+      const opt = document.createElement("option");
+      opt.value = i;
+      
+      if (ocupado) {
+        opt.textContent = i + " (já em uso)";
+        opt.disabled = true;
+        opt.style.color = "#999";
+        opt.style.backgroundColor = "transparent";
+      } else {
         opt.textContent = i;
-        select.appendChild(opt);
       }
+      
+      select.appendChild(opt);
     }
   } catch (err) {
     console.error(err);
@@ -293,8 +303,15 @@ async function carregarNumerosNaoAtleta() {
       const ocupado = todosOcupados.includes(chaveM) || todosOcupados.includes(chaveF);
       const opt = document.createElement("option");
       opt.value = i;
-      opt.textContent = ocupado ? i + " (já em uso)" : i;
-      if (ocupado) opt.style.color = "#999";
+      
+      if (ocupado) {
+        opt.textContent = i + " (já em uso)";
+        opt.disabled = true;
+        opt.style.color = "#999";
+      } else {
+        opt.textContent = i;
+      }
+      
       select.appendChild(opt);
     }
   } catch (err) {
