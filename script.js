@@ -1,991 +1,501 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* ========== TEMAS ========== */
-:root {
-  --bg: #f5f3ee;
-  --bg-card: #ffffff;
-  --bg-input: #fafaf8;
-  --texto: #2d2a24;
-  --texto-claro: #6b6050;
-  --texto-destaque: #5a4420;
-  --borda: #e0dcd4;
-  --borda-card: #e8e4dc;
-  --destaque: #c4a64a;
-  --destaque-escuro: #8b6914;
-  --btn-bg: #2d2a24;
-  --btn-texto: #ffffff;
-  --btn-hover: #3d382e;
-  --sombra: rgba(0,0,0,0.06);
-  --aviso-bg: #fdf9f2;
-  --aviso-borda: #f0e6d0;
-  --header-bg: #1a1814;
-  --header-texto: #e8d48f;
-}
-
-[data-theme="dark"] {
-  --bg: #1a1814;
-  --bg-card: #24211b;
-  --bg-input: #2d2922;
-  --texto: #e8e0cc;
-  --texto-claro: #a0947c;
-  --texto-destaque: #e8d48f;
-  --borda: #3a342a;
-  --borda-card: #363128;
-  --destaque: #c4a64a;
-  --destaque-escuro: #e8d48f;
-  --btn-bg: #c4a64a;
-  --btn-texto: #1a1814;
-  --btn-hover: #d4b85a;
-  --sombra: rgba(0,0,0,0.3);
-  --aviso-bg: #2d2618;
-  --aviso-borda: #4a3d20;
-  --header-bg: #0f0e0a;
-  --header-texto: #e8d48f;
-}
-
-body {
-  background: var(--bg);
-  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', sans-serif;
-  color: var(--texto);
-  min-height: 100vh;
-  line-height: 1.5;
-  transition: background 0.3s, color 0.3s;
-}
-
-/* ========== TOGGLE TEMA ========== */
-.theme-toggle {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 300;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: var(--bg-card);
-  border: 1px solid var(--borda-card);
-  cursor: pointer;
-  font-size: 1.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 16px var(--sombra);
-  transition: transform 0.15s;
-}
-
-.theme-toggle:hover {
-  transform: scale(1.05);
-}
-
-[data-theme="dark"] .theme-icon-light { display: none; }
-[data-theme="light"] .theme-icon-dark,
-:root:not([data-theme="dark"]) .theme-icon-dark { display: none; }
-
-/* ========== BANNER IMAGEM ========== */
-.banner-wrapper {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 3797 / 1688;
-  overflow: hidden;
-  border-bottom: 3px solid var(--destaque);
-}
-
-.banner-imagem {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.banner-carrinho {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  z-index: 10;
-  cursor: pointer;
-  font-size: 1.8rem;
-  padding: 12px 16px;
-  border-radius: 14px;
-  background: rgba(0,0,0,0.45);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.2);
-  transition: background 0.2s, transform 0.15s;
-  display: flex;
-  align-items: center;
-}
-
-.banner-carrinho:hover {
-  background: rgba(0,0,0,0.65);
-  transform: scale(1.05);
-}
-
-.carrinho-badge {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  background: var(--destaque);
-  color: #1a1814;
-  font-size: 0.65rem;
-  font-weight: 800;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid rgba(0,0,0,0.4);
-}
-
-/* ========== LOJA HEADER ========== */
-.loja-header {
-  background: var(--header-bg);
-  padding: 1.8rem 0;
-  text-align: center;
-  border-bottom: 1px solid var(--borda);
-}
-
-.loja-header-conteudo {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-.loja-header-conteudo h1 {
-  font-size: 2rem;
-  font-weight: 900;
-  color: var(--header-texto);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-}
-
-.loja-header-conteudo p {
-  font-size: 0.9rem;
-  color: #a0947c;
-  margin-top: 0.4rem;
-  letter-spacing: 0.5px;
-}
-
-/* ========== CONTEÚDO ========== */
-.conteudo {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 2.5rem 2rem;
-  display: flex;
-  gap: 2rem;
-  align-items: flex-start;
-}
-
-.secao-titulo-wrapper {
-  flex: 1;
-}
-
-.secao-titulo {
-  margin-bottom: 1.5rem;
-}
-
-.secao-titulo h2 {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--texto);
-}
-
-.secao-titulo p {
-  color: var(--texto-claro);
-  font-size: 0.8rem;
-  margin-top: 0.2rem;
-}
-
-/* ========== GRADE DE PRODUTOS ========== */
-.produtos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.2rem;
-}
-
-.produto-card {
-  background: var(--bg-card);
-  border-radius: 12px;
-  border: 1px solid var(--borda-card);
-  overflow: hidden;
-  transition: box-shadow 0.2s, transform 0.15s, border-color 0.15s;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-}
-
-.produto-card:hover {
-  box-shadow: 0 8px 28px var(--sombra);
-  transform: translateY(-2px);
-  border-color: var(--destaque);
-}
-
-.produto-card.selecionado {
-  border-color: var(--destaque);
-  box-shadow: 0 0 0 3px rgba(196, 166, 74, 0.25);
-}
-
-.produto-imagem-wrapper {
-  width: 100%;
-  aspect-ratio: 1688 / 2250;
-  overflow: hidden;
-  background: var(--bg-input);
-  position: relative;
-}
-
-.produto-imagem {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.produto-imagem-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 3rem;
-  color: var(--destaque);
-  background: var(--bg-input);
-}
-
-.produto-info {
-  padding: 1rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.produto-nome {
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: var(--texto);
-  margin-bottom: 0.3rem;
-}
-
-.produto-descricao {
-  font-size: 0.72rem;
-  color: var(--texto-claro);
-  margin-bottom: 0.8rem;
-  flex: 1;
-}
-
-.produto-preco {
-  font-weight: 800;
-  font-size: 1.1rem;
-  color: var(--texto-destaque);
-}
-
-.produto-botoes {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.8rem;
-}
-
-.btn-adicionar {
-  flex: 1;
-  padding: 9px 12px;
-  background: var(--btn-bg);
-  color: var(--btn-texto);
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.78rem;
-  cursor: pointer;
-  transition: background 0.15s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  font-family: 'Inter', sans-serif;
-}
-
-.btn-adicionar:hover {
-  background: var(--btn-hover);
-}
-
-.btn-adicionar.remover {
-  background: transparent;
-  color: #c44;
-  border: 1px solid rgba(204, 68, 68, 0.3);
-}
-
-.btn-adicionar.remover:hover {
-  background: rgba(204, 68, 68, 0.08);
-}
-
-.qtd-controle {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--bg-input);
-  border-radius: 8px;
-  padding: 2px;
-}
-
-.qtd-btn {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  border: 1px solid var(--borda);
-  background: var(--bg-card);
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: var(--texto);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.1s;
-}
-
-.qtd-btn:hover {
-  background: var(--bg-input);
-}
-
-.qtd-valor {
-  font-weight: 700;
-  font-size: 0.85rem;
-  min-width: 20px;
-  text-align: center;
-  color: var(--texto);
-}
-
-/* ========== PAINEL DO CARRINHO ========== */
-.carrinho-painel {
-  width: 320px;
-  background: var(--bg-card);
-  border-radius: 12px;
-  border: 1px solid var(--borda-card);
-  position: sticky;
-  top: 20px;
-  flex-shrink: 0;
-  display: none;
-}
-
-.carrinho-painel.ativo {
-  display: block;
-}
-
-.carrinho-painel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.2rem;
-  border-bottom: 1px solid var(--borda-card);
-}
-
-.carrinho-painel-header h2 {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--texto);
-}
-
-.carrinho-fechar {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  color: var(--texto-claro);
-  padding: 4px 8px;
-  border-radius: 4px;
-}
-
-.carrinho-fechar:hover {
-  background: var(--bg-input);
-}
-
-.carrinho-itens {
-  padding: 1rem 1.2rem;
-  max-height: 400px;
-  overflow-y: auto;
-}
-
-.carrinho-vazio {
-  text-align: center;
-  color: var(--texto-claro);
-  font-size: 0.8rem;
-  padding: 2rem 0;
-}
-
-.carrinho-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--borda-card);
-}
-
-.carrinho-item:last-child {
-  border-bottom: none;
-}
-
-.carrinho-item-img {
-  width: 44px;
-  height: 44px;
-  border-radius: 8px;
-  object-fit: cover;
-  background: var(--bg-input);
-}
-
-.carrinho-item-info {
-  flex: 1;
-}
-
-.carrinho-item-nome {
-  font-weight: 600;
-  font-size: 0.78rem;
-  color: var(--texto);
-}
-
-.carrinho-item-preco {
-  font-size: 0.72rem;
-  color: var(--texto-claro);
-}
-
-.carrinho-item-qtd {
-  font-size: 0.7rem;
-  color: var(--texto-claro);
-}
-
-.carrinho-item-remover {
-  background: none;
-  border: none;
-  color: #ba8a8a;
-  cursor: pointer;
-  font-size: 1.1rem;
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-.carrinho-item-remover:hover {
-  background: rgba(204, 68, 68, 0.08);
-}
-
-.carrinho-resumo {
-  border-top: 2px solid var(--borda-card);
-  padding: 1rem 1.2rem;
-}
-
-.resumo-linha {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--texto);
-}
-
-.btn-finalizar {
-  width: 100%;
-  padding: 12px;
-  background: var(--btn-bg);
-  color: var(--btn-texto);
-  border: none;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: background 0.15s;
-  font-family: 'Inter', sans-serif;
-}
-
-.btn-finalizar:hover {
-  background: var(--btn-hover);
-}
-
-/* ========== RODAPÉ ========== */
-.rodape {
-  background: #0f0e0a;
-  border-top: 3px solid var(--destaque);
-  padding: 2.5rem 0;
-  margin-top: 2rem;
-}
-
-.rodape-conteudo {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  text-align: center;
-}
-
-.rodape-slogan {
-  font-size: 1.6rem;
-  font-weight: 900;
-  color: #e8d48f;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
-}
-
-.rodape-contato {
-  margin-top: 1.5rem;
-}
-
-.rodape-duvidas {
-  color: #a0947c;
-  font-size: 0.85rem;
-  margin-bottom: 0.8rem;
-}
-
-.btn-wpp-rodape {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #25D366;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 0.9rem;
-  transition: background 0.15s;
-}
-
-.btn-wpp-rodape:hover {
-  background: #1fb855;
-}
-
-.rodape-copy {
-  color: #6b6050;
-  font-size: 0.75rem;
-  margin-top: 1.5rem;
-}
-
-/* ========== CHECKOUT OVERLAY ========== */
-.checkout-overlay {
-  position: fixed;
-  inset: 0;
-  background: var(--bg);
-  z-index: 200;
-  overflow-y: auto;
-}
-
-.checkout-container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
-}
-
-.checkout-voltar {
-  background: none;
-  border: 1px solid var(--borda);
-  padding: 8px 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.85rem;
-  color: var(--texto);
-  margin-bottom: 1.5rem;
-  transition: background 0.15s;
-  font-family: 'Inter', sans-serif;
-}
-
-.checkout-voltar:hover {
-  background: var(--bg-input);
-}
-
-.checkout-container h2 {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--texto);
-  margin-bottom: 1.5rem;
-}
-
-.checkout-resumo {
-  background: var(--bg-card);
-  border-radius: 12px;
-  border: 1px solid var(--borda-card);
-  padding: 1.2rem;
-  margin-bottom: 1.5rem;
-}
-
-.checkout-item-resumo {
-  display: flex;
-  justify-content: space-between;
-  padding: 6px 0;
-  font-size: 0.82rem;
-  color: var(--texto-claro);
-}
-
-.checkout-total-resumo {
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--texto);
-  border-top: 1px solid var(--borda-card);
-  margin-top: 8px;
-  padding-top: 8px;
-  display: flex;
-  justify-content: space-between;
-}
-
-/* ========== CARD DO FORMULÁRIO ========== */
-.card {
-  background: var(--bg-card);
-  padding: 1.5rem;
-  border-radius: 12px;
-  border: 1px solid var(--borda-card);
-}
-
-label {
-  display: block;
-  margin-top: 16px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--texto-claro);
-}
-
-input, select, textarea {
-  width: 100%;
-  padding: 11px 14px;
-  margin-top: 5px;
-  border-radius: 8px;
-  border: 1px solid var(--borda);
-  background: var(--bg-input);
-  color: var(--texto);
-  font-weight: 500;
-  font-size: 0.88rem;
-  outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
-  font-family: 'Inter', sans-serif;
-}
-
-input:focus, select:focus, textarea:focus {
-  border-color: var(--destaque);
-  box-shadow: 0 0 0 3px rgba(196, 166, 74, 0.15);
-}
-
-input::placeholder, textarea::placeholder {
-  color: var(--texto-claro);
-  opacity: 0.7;
-  font-weight: 400;
-}
-
-textarea {
-  resize: vertical;
-  min-height: 60px;
-}
-
-input[type="file"] {
-  padding: 10px 14px;
-  cursor: pointer;
-}
-
-input[type="file"]::file-selector-button {
-  background: var(--btn-bg);
-  border: none;
-  padding: 7px 16px;
-  border-radius: 6px;
-  color: var(--btn-texto);
-  font-weight: 600;
-  font-size: 0.8rem;
-  cursor: pointer;
-  margin-right: 12px;
-  font-family: 'Inter', sans-serif;
-}
-
-/* ========== CHECKBOX ========== */
-.checkbox-group {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 16px;
-}
-
-.checkbox-group input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--destaque);
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.checkbox-label {
-  margin-top: 0 !important;
-  cursor: pointer;
-  font-size: 0.85rem;
-  color: var(--texto);
-}
-
-/* ========== AVISO REPETIR NÚMERO ========== */
-.aviso-repetir-box {
-  background: var(--aviso-bg);
-  border: 1px solid var(--aviso-borda);
-  border-left: 3px solid var(--destaque);
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 0.78rem;
-  color: var(--texto-claro);
-  margin-top: 10px;
-}
-
-/* ========== PIX QR CODE ========== */
-.pix-container {
-  background: var(--bg-card);
-  border: 1px solid var(--borda-card);
-  border-radius: 12px;
-  padding: 1.2rem;
-  margin: 8px 0 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  align-items: center;
-}
-
-.pix-qrcode {
-  text-align: center;
-}
-
-.qr-imagem {
-  width: 200px;
-  height: 200px;
-  border-radius: 12px;
-  border: 1px solid var(--borda);
-  background: white;
-  padding: 8px;
-  display: block;
-}
-
-.qr-legenda {
-  font-size: 0.75rem;
-  color: var(--texto-claro);
-  margin-top: 8px;
-}
-
-.pix-copia {
-  width: 100%;
-}
-
-.pix-titulo {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--texto);
-  margin-bottom: 8px;
-}
-
-.pix-codigo-wrapper {
-  display: flex;
-  gap: 8px;
-  align-items: stretch;
-}
-
-.pix-codigo-wrapper code {
-  flex: 1;
-  background: var(--bg-input);
-  border: 1px solid var(--borda);
-  border-radius: 8px;
-  padding: 10px;
-  font-size: 0.6rem;
-  color: var(--texto);
-  word-break: break-all;
-  font-family: 'Courier New', monospace;
-  line-height: 1.4;
-  max-height: 80px;
-  overflow-y: auto;
-}
-
-.btn-copiar {
-  flex-shrink: 0;
-  padding: 10px 14px;
-  background: var(--btn-bg);
-  color: var(--btn-texto);
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: background 0.15s;
-  white-space: nowrap;
-  font-family: 'Inter', sans-serif;
-  width: auto;
-  margin-top: 0;
-}
-
-.btn-copiar:hover {
-  background: var(--btn-hover);
-}
-
-.btn-copiar.copiado {
-  background: #25D366;
-  color: white;
-}
-
-/* ========== CARTÃO AVISO ========== */
-.cartao-aviso {
-  background: var(--aviso-bg);
-  padding: 12px 14px;
-  border-radius: 8px;
-  font-size: 0.82rem;
-  margin-top: 10px;
-  color: var(--texto-claro);
-  border-left: 3px solid var(--destaque);
-}
-
-/* ========== OPTIONS DESABILITADOS ========== */
-select option:disabled {
-  color: #999 !important;
-  background-color: transparent;
-  font-style: italic;
-  opacity: 0.6;
-}
-
-button {
-  width: 100%;
-  margin-top: 24px;
-  padding: 14px;
-  background: var(--btn-bg);
-  border: none;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: var(--btn-texto);
-  cursor: pointer;
-  transition: background 0.15s;
-  font-family: 'Inter', sans-serif;
-}
-
-button:hover {
-  background: var(--btn-hover);
-}
-
-#msg {
-  text-align: center;
-  margin-top: 14px;
-  font-weight: 600;
-  font-size: 0.85rem;
-  min-height: 20px;
-  color: var(--texto-claro);
-}
-
-/* ========== TELA DE SUCESSO ========== */
-.sucesso-overlay {
-  position: fixed;
-  inset: 0;
-  background: var(--bg);
-  z-index: 250;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-}
-
-.sucesso-container {
-  background: var(--bg-card);
-  border: 1px solid var(--borda-card);
-  border-radius: 16px;
-  padding: 3rem 2rem;
-  text-align: center;
-  max-width: 480px;
-  width: 100%;
-  box-shadow: 0 8px 32px var(--sombra);
-}
-
-.sucesso-icone {
-  font-size: 4rem;
-  margin-bottom: 1.5rem;
-}
-
-.sucesso-container h2 {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--texto);
-  margin-bottom: 1rem;
-}
-
-.sucesso-mensagem {
-  color: var(--texto-claro);
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-  line-height: 1.6;
-}
-
-.btn-voltar-loja {
-  margin-top: 2rem;
-  padding: 14px 32px;
-  background: var(--btn-bg);
-  color: var(--btn-texto);
-  border: none;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: background 0.15s;
-  font-family: 'Inter', sans-serif;
-  width: auto;
-  display: inline-block;
-}
-
-.btn-voltar-loja:hover {
-  background: var(--btn-hover);
-}
-
-/* ========== RESPONSIVO ========== */
-@media (max-width: 768px) {
-  .banner-carrinho {
-    top: 10px;
-    right: 10px;
-    font-size: 1.5rem;
-    padding: 10px 12px;
-  }
-
-  .loja-header-conteudo h1 {
-    font-size: 1.3rem;
-    letter-spacing: 1px;
-  }
-
-  .loja-header-conteudo p {
-    font-size: 0.8rem;
-  }
-
-  .conteudo {
-    flex-direction: column;
-    padding: 1.5rem 1rem;
-  }
-
-  .produtos-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 0.8rem;
-  }
-
-  .carrinho-painel {
-    width: 100%;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: auto;
-    border-radius: 16px 16px 0 0;
-    z-index: 150;
-    max-height: 60vh;
-    overflow-y: auto;
-    box-shadow: 0 -4px 24px rgba(0,0,0,0.25);
-  }
-
-  .rodape-slogan {
-    font-size: 1.2rem;
-  }
-
-  .theme-toggle {
-    bottom: 16px;
-    right: 16px;
-    width: 40px;
-    height: 40px;
-  }
+const API_URL = "https://script.google.com/macros/s/AKfycbxo6MjRNAFEoN6tEb0pHmA4IK6ZIbWCUUdGTgd42RCaEcSOKJ8RiA_HoCXM1IovjDOMow/exec";
+
+let ocupados = [];
+let carrinho = [];
+
+// Catálogo de produtos
+const produtos = [
+  { id: "camisa-jogador", nome: "Camisa Jogador", preco: 95, img: "img/camisa-jogador.jpg", desc: "Camisa oficial de jogo" },
+  { id: "camisa-goleiro", nome: "Camisa Goleiro", preco: 95, img: "img/camisa-goleiro.jpg", desc: "Camisa exclusiva para goleiros" },
+  { id: "bandana-preta", nome: "Bandana Preta", preco: 25, img: "img/bandana-preta.jpg", desc: "Bandana preta oficial" },
+  { id: "bandana-laranja", nome: "Bandana Laranja", preco: 25, img: "img/bandana-laranja.jpg", desc: "Bandana laranja oficial" },
+  { id: "tirante", nome: "Tirante", preco: 15, img: "img/tirante.jpg", desc: "Tirante elástico" },
+  { id: "kit", nome: "Kit", preco: 40, img: "img/kit.jpg", desc: "Kit completo de acessórios" },
+  { id: "kit-atleta", nome: "Kit Atleta", preco: 150, img: "img/kit-atleta.jpg", desc: "Kit exclusivo para atletas" },
+  { id: "bucket", nome: "Bucket", preco: 30, img: "img/bucket.jpg", desc: "Bucket personalizado" }
+];
+
+/* ========== INIT ========== */
+document.addEventListener("DOMContentLoaded", () => {
+  renderizarProdutos();
+  carregarNumeros();
+  carregarNumerosNaoAtleta();
+  atualizarCarrinho();
+  document.getElementById("btn").addEventListener("click", enviarPedido);
+  toggleAtleta();
+});
+
+/* ========== TEMA ========== */
+function toggleTema() {
+  const html = document.documentElement;
+  const temaAtual = html.getAttribute("data-theme");
+  html.setAttribute("data-theme", temaAtual === "dark" ? "light" : "dark");
+}
+
+/* ========== TOGGLE ATLETA ========== */
+function toggleAtleta() {
+  const souAtleta = document.getElementById("souAtleta").checked;
+  document.getElementById("camposAtleta").style.display = souAtleta ? "block" : "none";
+  document.getElementById("camposNaoAtleta").style.display = souAtleta ? "none" : "block";
   
-  .sucesso-container {
-    padding: 2rem 1.5rem;
+  if (!souAtleta) {
+    document.getElementById("repetirNumero").checked = false;
+    toggleRepetirNumero();
   }
+}
+
+function toggleRepetirNumero() {
+  const repetir = document.getElementById("repetirNumero").checked;
+  document.getElementById("avisoRepetir").style.display = repetir ? "block" : "none";
+  document.getElementById("camposNumeroNovo").style.display = repetir ? "none" : "block";
+}
+
+/* ========== COPIAR PIX ========== */
+function copiarPix() {
+  const codigo = document.getElementById("pixCodigo").textContent;
   
-  .sucesso-icone {
-    font-size: 3rem;
+  navigator.clipboard.writeText(codigo).then(() => {
+    const btn = document.querySelector(".btn-copiar");
+    btn.textContent = "✅ Copiado!";
+    btn.classList.add("copiado");
+    setTimeout(() => {
+      btn.textContent = "📋 Copiar";
+      btn.classList.remove("copiado");
+    }, 2000);
+  }).catch(() => {
+    const textArea = document.createElement("textarea");
+    textArea.value = codigo;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textArea);
+    
+    const btn = document.querySelector(".btn-copiar");
+    btn.textContent = "✅ Copiado!";
+    btn.classList.add("copiado");
+    setTimeout(() => {
+      btn.textContent = "📋 Copiar";
+      btn.classList.remove("copiado");
+    }, 2000);
+  });
+}
+
+/* ========== RENDERIZAR PRODUTOS ========== */
+function renderizarProdutos() {
+  const grid = document.getElementById("produtosGrid");
+  grid.innerHTML = "";
+
+  produtos.forEach((produto) => {
+    const card = document.createElement("div");
+    card.className = "produto-card";
+    card.onclick = (e) => {
+      if (!e.target.closest("button")) {
+        adicionarAoCarrinho(produto.id);
+      }
+    };
+
+    const itemCarrinho = carrinho.find(c => c.id === produto.id);
+    const qtd = itemCarrinho ? itemCarrinho.qtd : 0;
+
+    card.innerHTML = `
+      <div class="produto-imagem-wrapper">
+        <img src="${produto.img}" alt="${produto.nome}" class="produto-imagem" 
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>
+        <div class="produto-imagem-placeholder" style="display:none;">📸</div>
+      </div>
+      <div class="produto-info">
+        <h3 class="produto-nome">${produto.nome}</h3>
+        <p class="produto-descricao">${produto.desc}</p>
+        <span class="produto-preco">R$ ${produto.preco.toFixed(2)}</span>
+        <div class="produto-botoes">
+          ${qtd > 0 ? `
+            <div class="qtd-controle" onclick="event.stopPropagation()">
+              <button class="qtd-btn" onclick="diminuirQtd('${produto.id}')">−</button>
+              <span class="qtd-valor">${qtd}</span>
+              <button class="qtd-btn" onclick="aumentarQtd('${produto.id}')">+</button>
+            </div>
+            <button class="btn-adicionar remover" onclick="event.stopPropagation(); removerDoCarrinho('${produto.id}')">🗑</button>
+          ` : `
+            <button class="btn-adicionar" onclick="event.stopPropagation(); adicionarAoCarrinho('${produto.id}')">
+              🛒 Adicionar
+            </button>
+          `}
+        </div>
+      </div>
+    `;
+
+    if (qtd > 0) card.classList.add("selecionado");
+    grid.appendChild(card);
+  });
+}
+
+/* ========== CARRINHO ========== */
+function adicionarAoCarrinho(id) {
+  const item = carrinho.find(c => c.id === id);
+  if (item) {
+    item.qtd++;
+  } else {
+    const produto = produtos.find(p => p.id === id);
+    carrinho.push({ ...produto, qtd: 1 });
+  }
+  atualizarCarrinho();
+  renderizarProdutos();
+}
+
+function diminuirQtd(id) {
+  const item = carrinho.find(c => c.id === id);
+  if (item) {
+    item.qtd--;
+    if (item.qtd <= 0) {
+      removerDoCarrinho(id);
+      return;
+    }
+  }
+  atualizarCarrinho();
+  renderizarProdutos();
+}
+
+function aumentarQtd(id) {
+  const item = carrinho.find(c => c.id === id);
+  if (item) item.qtd++;
+  atualizarCarrinho();
+  renderizarProdutos();
+}
+
+function removerDoCarrinho(id) {
+  carrinho = carrinho.filter(c => c.id !== id);
+  atualizarCarrinho();
+  renderizarProdutos();
+}
+
+function atualizarCarrinho() {
+  const badge = document.getElementById("carrinhoBadge");
+  const painel = document.getElementById("carrinhoPainel");
+  const itensContainer = document.getElementById("carrinhoItens");
+  const resumo = document.getElementById("carrinhoResumo");
+  const subtotalEl = document.getElementById("subtotal");
+  const totalFinalEl = document.getElementById("totalFinal");
+
+  const totalItens = carrinho.reduce((s, c) => s + c.qtd, 0);
+  const subtotal = carrinho.reduce((s, c) => s + (c.preco * c.qtd), 0);
+
+  badge.textContent = totalItens;
+
+  if (carrinho.length === 0) {
+    painel.classList.remove("ativo");
+  } else {
+    painel.classList.add("ativo");
+  }
+
+  itensContainer.innerHTML = "";
+  if (carrinho.length === 0) {
+    itensContainer.innerHTML = '<p class="carrinho-vazio">Nenhum item adicionado ainda</p>';
+    resumo.style.display = "none";
+  } else {
+    carrinho.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "carrinho-item";
+      div.innerHTML = `
+        <img src="${item.img}" alt="${item.nome}" class="carrinho-item-img" onerror="this.style.display='none'"/>
+        <div class="carrinho-item-info">
+          <p class="carrinho-item-nome">${item.nome}</p>
+          <p class="carrinho-item-preco">R$ ${(item.preco * item.qtd).toFixed(2)}</p>
+          <p class="carrinho-item-qtd">Qtd: ${item.qtd}</p>
+        </div>
+        <button class="carrinho-item-remover" onclick="removerDoCarrinho('${item.id}')">✕</button>
+      `;
+      itensContainer.appendChild(div);
+    });
+    resumo.style.display = "block";
+    subtotalEl.textContent = `R$ ${subtotal.toFixed(2)}`;
+    totalFinalEl.textContent = `R$ ${subtotal.toFixed(2)}`;
+  }
+}
+
+function abrirCarrinho() {
+  const painel = document.getElementById("carrinhoPainel");
+  if (painel.classList.contains("ativo")) {
+    painel.scrollIntoView({ behavior: "smooth" });
+  }
+}
+
+function fecharCarrinho() {}
+
+/* ========== CHECKOUT ========== */
+function irParaCheckout() {
+  if (carrinho.length === 0) return;
+
+  const checkoutResumo = document.getElementById("checkoutResumo");
+  const subtotal = carrinho.reduce((s, c) => s + (c.preco * c.qtd), 0);
+
+  checkoutResumo.innerHTML = carrinho.map(c => `
+    <div class="checkout-item-resumo">
+      <span>${c.nome} x${c.qtd}</span>
+      <span>R$ ${(c.preco * c.qtd).toFixed(2)}</span>
+    </div>
+  `).join("") + `
+    <div class="checkout-total-resumo">
+      <span>Total</span>
+      <span>R$ ${subtotal.toFixed(2)}</span>
+    </div>
+  `;
+
+  document.getElementById("checkoutOverlay").style.display = "block";
+  document.getElementById("checkoutOverlay").scrollIntoView({ behavior: "smooth" });
+  
+  toggleAtleta();
+  carregarNumeros();
+  carregarNumerosNaoAtleta();
+}
+
+function voltarParaLoja() {
+  document.getElementById("checkoutOverlay").style.display = "none";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function voltarParaLojaPosSucesso() {
+  document.getElementById("sucessoOverlay").style.display = "none";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* ========== NÚMEROS ========== */
+async function carregarNumeros() {
+  const select = document.getElementById("numero");
+  try {
+    const res = await fetch(API_URL);
+    ocupados = await res.json();
+    const categoria = document.getElementById("categoria").value;
+    select.innerHTML = "";
+    
+    for (let i = 1; i <= 100; i++) {
+      const chave = categoria + "-" + i;
+      const ocupado = ocupados.includes(chave);
+      
+      const opt = document.createElement("option");
+      opt.value = i;
+      
+      if (ocupado) {
+        opt.textContent = i + " (já em uso)";
+        opt.disabled = true;
+        opt.style.color = "#999";
+        opt.style.backgroundColor = "transparent";
+      } else {
+        opt.textContent = i;
+      }
+      
+      select.appendChild(opt);
+    }
+  } catch (err) {
+    console.error(err);
+    select.innerHTML = "<option>Erro ao carregar</option>";
+  }
+}
+
+async function carregarNumerosNaoAtleta() {
+  const select = document.getElementById("numeroNaoAtleta");
+  try {
+    const res = await fetch(API_URL);
+    const todosOcupados = await res.json();
+    select.innerHTML = '<option value="">Não se aplica</option>';
+    for (let i = 1; i <= 100; i++) {
+      const chaveM = "M-" + i;
+      const chaveF = "F-" + i;
+      const ocupado = todosOcupados.includes(chaveM) || todosOcupados.includes(chaveF);
+      const opt = document.createElement("option");
+      opt.value = i;
+      
+      if (ocupado) {
+        opt.textContent = i + " (já em uso)";
+        opt.disabled = true;
+        opt.style.color = "#999";
+      } else {
+        opt.textContent = i;
+      }
+      
+      select.appendChild(opt);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+/* ========== PAGAMENTO ========== */
+function trocarPagamento() {
+  const tipo = document.getElementById("pagamento").value;
+  document.getElementById("pixBox").style.display = tipo === "pix" ? "block" : "none";
+  document.getElementById("cartaoBox").style.display = tipo === "cartao" ? "block" : "none";
+}
+
+/* ========== ENVIAR PEDIDO ========== */
+function toBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+  });
+}
+
+async function enviarPedido() {
+  const msg = document.getElementById("msg");
+  const nome = document.getElementById("nome").value.trim();
+  const telefone = document.getElementById("telefone").value.trim();
+  const souAtleta = document.getElementById("souAtleta").checked;
+  const repetirNumero = document.getElementById("repetirNumero").checked;
+  const nomeCamisa = document.getElementById("nomeCamisa").value.trim();
+  const tamanho = document.getElementById("tamanho").value;
+  const observacao = document.getElementById("observacao").value.trim();
+  const pagamento = document.getElementById("pagamento").value;
+
+  let categoria, numero;
+  
+  if (souAtleta) {
+    if (repetirNumero) {
+      categoria = document.getElementById("categoria").value;
+      numero = Number(document.getElementById("numeroRepetir").value);
+    } else {
+      categoria = document.getElementById("categoria").value;
+      numero = Number(document.getElementById("numero").value);
+    }
+  } else {
+    categoria = document.getElementById("categoriaNaoAtleta").value || "Não informado";
+    const numNaoAtleta = document.getElementById("numeroNaoAtleta").value;
+    numero = numNaoAtleta || 0;
+  }
+
+  if (!nome || !telefone) {
+    msg.innerText = "❌ Nome e telefone são obrigatórios.";
+    msg.style.color = "#c44";
+    return;
+  }
+
+  if (carrinho.length === 0) {
+    msg.innerText = "❌ Seu carrinho está vazio.";
+    msg.style.color = "#c44";
+    return;
+  }
+
+  // Se for cartão, salva o pedido e redireciona para WhatsApp
+  if (pagamento === "cartao") {
+    const produtosPedido = carrinho.map(c => `${c.nome} x${c.qtd}`).join(", ");
+    const totalPedido = carrinho.reduce((s, c) => s + (c.preco * c.qtd), 0);
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify({
+          nome,
+          telefone,
+          categoria,
+          tipoCamisa: "",
+          nomeCamisa,
+          produto: produtosPedido,
+          tamanho,
+          numero,
+          tirantesExtras: "0",
+          pagamento: "Cartão",
+          comprovante: "",
+          souAtleta,
+          repetirNumero,
+          observacao
+        })
+      });
+
+      const data = await res.json();
+      if (data.sucesso) {
+        document.getElementById("checkoutOverlay").style.display = "none";
+        
+        msg.innerText = "";
+        carrinho = [];
+        atualizarCarrinho();
+        renderizarProdutos();
+        document.getElementById("nome").value = "";
+        document.getElementById("telefone").value = "";
+        document.getElementById("nomeCamisa").value = "";
+        document.getElementById("observacao").value = "";
+        
+        // Monta mensagem para WhatsApp com dados do pedido
+        const mensagemWpp = `Olá! Finalizei meu pedido na Lojinha Cangaceiros e quero pagar com cartão.%0A%0A` +
+          `*Nome:* ${nome}%0A` +
+          `*Telefone:* ${telefone}%0A` +
+          `*Produtos:* ${produtosPedido}%0A` +
+          `*Tamanho:* ${tamanho}%0A` +
+          `*Número:* ${numero !== 0 ? numero : 'Não se aplica'}%0A` +
+          `*Nome na camisa:* ${nomeCamisa || 'Não informado'}%0A` +
+          `*Observação:* ${observacao || 'Nenhuma'}%0A` +
+          `*Total:* R$ ${totalPedido.toFixed(2)}%0A%0A` +
+          `Aguardo contato para finalizar o pagamento! 🦎`;
+        
+        window.open(`https://wa.me/5581989413959?text=${mensagemWpp}`, "_blank");
+      } else {
+        msg.innerText = data.mensagem || "❌ Erro ao salvar pedido";
+        msg.style.color = "#c44";
+      }
+    } catch (err) {
+      console.error(err);
+      msg.innerText = "❌ Erro ao enviar pedido";
+      msg.style.color = "#c44";
+    }
+    return;
+  }
+
+  // Pagamento via PIX
+  const file = document.getElementById("comprovante").files[0];
+  if (pagamento === "pix" && !file) {
+    msg.innerText = "❌ Envie o comprovante do PIX.";
+    msg.style.color = "#c44";
+    return;
+  }
+
+  let comprovante = "";
+  if (file) comprovante = await toBase64(file);
+
+  const produtosPedido = carrinho.map(c => `${c.nome} x${c.qtd}`).join(", ");
+
+  try {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        nome,
+        telefone,
+        categoria,
+        tipoCamisa: "",
+        nomeCamisa,
+        produto: produtosPedido,
+        tamanho,
+        numero,
+        tirantesExtras: "0",
+        pagamento,
+        comprovante,
+        souAtleta,
+        repetirNumero,
+        observacao
+      })
+    });
+
+    const data = await res.json();
+    if (data.sucesso) {
+      document.getElementById("checkoutOverlay").style.display = "none";
+      document.getElementById("sucessoOverlay").style.display = "flex";
+      
+      msg.innerText = "";
+      carrinho = [];
+      atualizarCarrinho();
+      renderizarProdutos();
+      document.getElementById("nome").value = "";
+      document.getElementById("telefone").value = "";
+      document.getElementById("nomeCamisa").value = "";
+      document.getElementById("observacao").value = "";
+      document.getElementById("comprovante").value = "";
+      carregarNumeros();
+      carregarNumerosNaoAtleta();
+    } else {
+      msg.innerText = data.mensagem || "❌ Erro no pedido";
+      msg.style.color = "#c44";
+    }
+  } catch (err) {
+    console.error(err);
+    msg.innerText = "❌ Erro ao enviar pedido";
+    msg.style.color = "#c44";
   }
 }
