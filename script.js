@@ -1,9 +1,9 @@
-const API_URL = "https://script.google.com/macros/s/AKfycby-1tHUo0orer2sBrm2aVYnqPb7ktOshVVwhv-5kNNsyJoyw2avCWke0vqYE7Qbydel1Q/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbwO1wNzGmj-DpfjfFqpKcAhof4TEjEG4uZ-I68tq-x5j8lBgt4EzbVwghSNBTkqvT7dMQ/exec";
 
 let ocupados = [];
 let carrinho = [];
 
-// Catálogo de produtos (sem Caneca e sem Camisa padrão)
+// Catálogo de produtos
 const produtos = [
   { id: "camisa-jogador", nome: "Camisa Jogador", preco: 95, img: "img/camisa-jogador.jpg", desc: "Camisa oficial de jogo" },
   { id: "camisa-goleiro", nome: "Camisa Goleiro", preco: 95, img: "img/camisa-goleiro.jpg", desc: "Camisa exclusiva para goleiros" },
@@ -12,15 +12,17 @@ const produtos = [
   { id: "tirante", nome: "Tirante", preco: 15, img: "img/tirante.jpg", desc: "Tirante elástico" },
   { id: "kit", nome: "Kit", preco: 40, img: "img/kit.jpg", desc: "Kit completo de acessórios" },
   { id: "kit-atleta", nome: "Kit Atleta", preco: 150, img: "img/kit-atleta.jpg", desc: "Kit exclusivo para atletas" },
-  { id: "bucket", nome: "Bucket", preco: 45, img: "img/bucket.jpg", desc: "Bucket personalizado" }
+  { id: "bucket", nome: "Bucket", preco: 30, img: "img/bucket.jpg", desc: "Bucket personalizado" }
 ];
 
 /* ========== INIT ========== */
 document.addEventListener("DOMContentLoaded", () => {
   renderizarProdutos();
   carregarNumeros();
+  carregarNumerosNaoAtleta();
   atualizarCarrinho();
   document.getElementById("btn").addEventListener("click", enviarPedido);
+  toggleAtleta();
 });
 
 /* ========== TEMA ========== */
@@ -28,6 +30,54 @@ function toggleTema() {
   const html = document.documentElement;
   const temaAtual = html.getAttribute("data-theme");
   html.setAttribute("data-theme", temaAtual === "dark" ? "light" : "dark");
+}
+
+/* ========== TOGGLE ATLETA ========== */
+function toggleAtleta() {
+  const souAtleta = document.getElementById("souAtleta").checked;
+  document.getElementById("camposAtleta").style.display = souAtleta ? "block" : "none";
+  document.getElementById("camposNaoAtleta").style.display = souAtleta ? "none" : "block";
+  
+  if (!souAtleta) {
+    document.getElementById("repetirNumero").checked = false;
+    toggleRepetirNumero();
+  }
+}
+
+function toggleRepetirNumero() {
+  const repetir = document.getElementById("repetirNumero").checked;
+  document.getElementById("avisoRepetir").style.display = repetir ? "block" : "none";
+  document.getElementById("camposNumeroNovo").style.display = repetir ? "none" : "block";
+}
+
+/* ========== COPIAR PIX ========== */
+function copiarPix() {
+  const codigo = document.getElementById("pixCodigo").textContent;
+  
+  navigator.clipboard.writeText(codigo).then(() => {
+    const btn = document.querySelector(".btn-copiar");
+    btn.textContent = "✅ Copiado!";
+    btn.classList.add("copiado");
+    setTimeout(() => {
+      btn.textContent = "📋 Copiar";
+      btn.classList.remove("copiado");
+    }, 2000);
+  }).catch(() => {
+    const textArea = document.createElement("textarea");
+    textArea.value = codigo;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textArea);
+    
+    const btn = document.querySelector(".btn-copiar");
+    btn.textContent = "✅ Copiado!";
+    btn.classList.add("copiado");
+    setTimeout(() => {
+      btn.textContent = "📋 Copiar";
+      btn.classList.remove("copiado");
+    }, 2000);
+  });
 }
 
 /* ========== RENDERIZAR PRODUTOS ========== */
@@ -169,9 +219,7 @@ function abrirCarrinho() {
   }
 }
 
-function fecharCarrinho() {
-  // Mobile: recolhe
-}
+function fecharCarrinho() {}
 
 /* ========== CHECKOUT ========== */
 function irParaCheckout() {
@@ -194,11 +242,19 @@ function irParaCheckout() {
 
   document.getElementById("checkoutOverlay").style.display = "block";
   document.getElementById("checkoutOverlay").scrollIntoView({ behavior: "smooth" });
+  
+  toggleAtleta();
   carregarNumeros();
+  carregarNumerosNaoAtleta();
 }
 
 function voltarParaLoja() {
   document.getElementById("checkoutOverlay").style.display = "none";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function voltarParaLojaPosSucesso() {
+  document.getElementById("sucessoOverlay").style.display = "none";
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
@@ -225,6 +281,27 @@ async function carregarNumeros() {
   }
 }
 
+async function carregarNumerosNaoAtleta() {
+  const select = document.getElementById("numeroNaoAtleta");
+  try {
+    const res = await fetch(API_URL);
+    const todosOcupados = await res.json();
+    select.innerHTML = '<option value="">Não se aplica</option>';
+    for (let i = 1; i <= 100; i++) {
+      const chaveM = "M-" + i;
+      const chaveF = "F-" + i;
+      const ocupado = todosOcupados.includes(chaveM) || todosOcupados.includes(chaveF);
+      const opt = document.createElement("option");
+      opt.value = i;
+      opt.textContent = ocupado ? i + " (já em uso)" : i;
+      if (ocupado) opt.style.color = "#999";
+      select.appendChild(opt);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 /* ========== PAGAMENTO ========== */
 function trocarPagamento() {
   const tipo = document.getElementById("pagamento").value;
@@ -246,18 +323,36 @@ async function enviarPedido() {
   const msg = document.getElementById("msg");
   const nome = document.getElementById("nome").value.trim();
   const telefone = document.getElementById("telefone").value.trim();
-  const categoria = document.getElementById("categoria").value;
+  const souAtleta = document.getElementById("souAtleta").checked;
+  const repetirNumero = document.getElementById("repetirNumero").checked;
   const nomeCamisa = document.getElementById("nomeCamisa").value.trim();
-  const numero = Number(document.getElementById("numero").value);
   const pagamento = document.getElementById("pagamento").value;
+
+  let categoria, numero;
+  
+  if (souAtleta) {
+    if (repetirNumero) {
+      categoria = document.getElementById("categoria").value;
+      numero = Number(document.getElementById("numeroRepetir").value);
+    } else {
+      categoria = document.getElementById("categoria").value;
+      numero = Number(document.getElementById("numero").value);
+    }
+  } else {
+    categoria = document.getElementById("categoriaNaoAtleta").value || "Não informado";
+    const numNaoAtleta = document.getElementById("numeroNaoAtleta").value;
+    numero = numNaoAtleta || 0;
+  }
 
   if (!nome || !telefone) {
     msg.innerText = "❌ Nome e telefone são obrigatórios.";
+    msg.style.color = "#c44";
     return;
   }
 
   if (carrinho.length === 0) {
     msg.innerText = "❌ Seu carrinho está vazio.";
+    msg.style.color = "#c44";
     return;
   }
 
@@ -269,6 +364,7 @@ async function enviarPedido() {
   const file = document.getElementById("comprovante").files[0];
   if (pagamento === "pix" && !file) {
     msg.innerText = "❌ Envie o comprovante do PIX.";
+    msg.style.color = "#c44";
     return;
   }
 
@@ -291,13 +387,19 @@ async function enviarPedido() {
         numero,
         tirantesExtras: "0",
         pagamento,
-        comprovante
+        comprovante,
+        souAtleta,
+        repetirNumero
       })
     });
 
     const data = await res.json();
     if (data.sucesso) {
-      msg.innerText = "✅ Pedido realizado com sucesso!";
+      // Fecha o checkout e mostra tela de sucesso
+      document.getElementById("checkoutOverlay").style.display = "none";
+      document.getElementById("sucessoOverlay").style.display = "flex";
+      
+      msg.innerText = "";
       carrinho = [];
       atualizarCarrinho();
       renderizarProdutos();
@@ -306,11 +408,14 @@ async function enviarPedido() {
       document.getElementById("nomeCamisa").value = "";
       document.getElementById("comprovante").value = "";
       carregarNumeros();
+      carregarNumerosNaoAtleta();
     } else {
       msg.innerText = data.mensagem || "❌ Erro no pedido";
+      msg.style.color = "#c44";
     }
   } catch (err) {
     console.error(err);
     msg.innerText = "❌ Erro ao enviar pedido";
+    msg.style.color = "#c44";
   }
 }

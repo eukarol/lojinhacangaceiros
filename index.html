@@ -15,7 +15,7 @@
     <span class="theme-icon-dark">🌙</span>
   </button>
 
-  <!-- BANNER IMAGEM PURA (1341x216) -->
+  <!-- BANNER IMAGEM PURA (3797x1688) -->
   <div class="banner-wrapper">
     <img src="img/banner1.jpg" alt="Cangaceiros" class="banner-imagem" onerror="this.style.display='none'"/>
     <div class="banner-carrinho" onclick="abrirCarrinho()">
@@ -24,41 +24,17 @@
     </div>
   </div>
 
-  <!-- TÍTULO DA LOJA (FORA DO BANNER) -->
+  <!-- TÍTULO DA LOJA -->
   <div class="loja-header">
     <div class="loja-header-conteudo">
-      <h1>LOJINHA A.A.A CANGACEIROS</h1>
-      <p>Produtos oficiais da maior atlética do agreste</p>
-    </div>
-  </div>
-
-  <!-- BANNER DE AVISO -->
-  <div class="banner-aviso">
-    <div class="banner-aviso-conteudo">
-      <div class="aviso-item">
-        <span class="aviso-icone">⚠️</span>
-        <div>
-          <strong>Não atletas</strong>
-          <p>Compras devem ser feitas diretamente pelo WhatsApp</p>
-        </div>
-      </div>
-      <div class="aviso-item">
-        <span class="aviso-icone">🏃</span>
-        <div>
-          <strong>Atletas</strong>
-          <p>Já tem camisa e quer repetir o número? Entre em contato:</p>
-        </div>
-      </div>
-      <a href="https://wa.me/5587981579193?text=Ol%C3%A1!%20Quero%20comprar%20uma%20camisa%20da%20Atl%C3%A9tica%20Cangaceiros." target="_blank" class="btn-wpp-banner">
-        📞 (87) 98157-9193
-      </a>
+      <h1>🦎 LOJINHA A.A.A CANGACEIROS 🦎</h1>
+      <p>Produtos oficiais da maior atlética do agreste pernambucano</p>
     </div>
   </div>
 
   <!-- CONTEÚDO PRINCIPAL -->
   <main class="conteudo">
 
-    <!-- TÍTULO DA SEÇÃO -->
     <div class="secao-titulo-wrapper">
       <div class="secao-titulo">
         <h2>Nossos Produtos</h2>
@@ -66,9 +42,7 @@
       </div>
 
       <!-- GRADE DE PRODUTOS -->
-      <section class="produtos-grid" id="produtosGrid">
-        <!-- Preenchido via JS -->
-      </section>
+      <section class="produtos-grid" id="produtosGrid"></section>
     </div>
 
     <!-- PAINEL DO CARRINHO -->
@@ -97,6 +71,12 @@
   <footer class="rodape">
     <div class="rodape-conteudo">
       <p class="rodape-slogan">🦎 O CANGAÇO DOMINA! 🦎</p>
+      <div class="rodape-contato">
+        <p class="rodape-duvidas">Dúvidas? Entre em contato pelo WhatsApp:</p>
+        <a href="https://wa.me/5587981579193?text=Ol%C3%A1!%20Tenho%20d%C3%BAvidas%20sobre%20os%20produtos%20da%20Atl%C3%A9tica%20Cangaceiros." target="_blank" class="btn-wpp-rodape">
+          📞 (87) 98157-9193
+        </a>
+      </div>
       <p class="rodape-copy">© 2024 A.A.A Cangaceiros • Todos os direitos reservados</p>
     </div>
   </footer>
@@ -116,19 +96,58 @@
         <label>📞 Telefone / WhatsApp</label>
         <input id="telefone" type="text" placeholder="(DDD) 9XXXX-XXXX"/>
 
-        <label>👕 Categoria</label>
-        <select id="categoria" onchange="carregarNumeros()">
-          <option value="M">Masculino</option>
-          <option value="F">Feminino</option>
-        </select>
+        <!-- CHECKBOX ATLETA -->
+        <div class="checkbox-group">
+          <input type="checkbox" id="souAtleta" onchange="toggleAtleta()"/>
+          <label for="souAtleta" class="checkbox-label">Sou atleta da A.A.A Cangaceiros</label>
+        </div>
+
+        <!-- CAMPOS DE ATLETA -->
+        <div id="camposAtleta" style="display:none;">
+          <div class="checkbox-group">
+            <input type="checkbox" id="repetirNumero" onchange="toggleRepetirNumero()"/>
+            <label for="repetirNumero" class="checkbox-label">Já tenho camisa e quero repetir o número</label>
+          </div>
+
+          <div id="avisoRepetir" style="display:none;">
+            <div class="aviso-repetir-box">
+              ⚠️ Seu número será verificado pela equipe. Se já estiver em uso por outro atleta, entraremos em contato.
+            </div>
+            <label>🔢 Digite seu número</label>
+            <input id="numeroRepetir" type="number" min="1" max="100" placeholder="Digite o número da sua camisa"/>
+          </div>
+
+          <div id="camposNumeroNovo">
+            <label>👕 Categoria</label>
+            <select id="categoria" onchange="carregarNumeros()">
+              <option value="M">Masculino</option>
+              <option value="F">Feminino</option>
+            </select>
+
+            <label>🔢 Número da camisa</label>
+            <select id="numero">
+              <option>Carregando...</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- NÃO ATLETA -->
+        <div id="camposNaoAtleta">
+          <label>👕 Categoria (opcional)</label>
+          <select id="categoriaNaoAtleta">
+            <option value="">Não se aplica</option>
+            <option value="M">Masculino</option>
+            <option value="F">Feminino</option>
+          </select>
+
+          <label>🔢 Número da camisa (opcional)</label>
+          <select id="numeroNaoAtleta">
+            <option value="">Não se aplica</option>
+          </select>
+        </div>
 
         <label>✍️ Nome na camisa (se aplicável)</label>
         <input id="nomeCamisa" type="text" placeholder="Nome para personalizar"/>
-
-        <label>🔢 Número da camisa</label>
-        <select id="numero">
-          <option>Carregando...</option>
-        </select>
 
         <label>💳 Forma de pagamento</label>
         <select id="pagamento" onchange="trocarPagamento()">
@@ -136,15 +155,26 @@
           <option value="cartao">Cartão (encaminhado ao WhatsApp)</option>
         </select>
 
+        <!-- PIX -->
         <div id="pixBox">
-          <div class="pix-info">
-            <p>📱 Chave: <strong>atletica.uabj@gmail.com</strong></p>
-            <p>👤 Titular: <strong>Jorge Candido Dias Neto</strong></p>
+          <div class="pix-container">
+            <div class="pix-qrcode">
+              <img src="img/qrcode-pix.png" alt="QR Code Pix" class="qr-imagem"/>
+              <p class="qr-legenda">Escaneie o QR Code</p>
+            </div>
+            <div class="pix-copia">
+              <p class="pix-titulo">Ou copie o Pix Copia e Cola:</p>
+              <div class="pix-codigo-wrapper">
+                <code id="pixCodigo">00020126450014BR.GOV.BCB.PIX0123atletica.uabj@gmail.com5204000053039865802BR5901N6001C62070503***63042109</code>
+                <button class="btn-copiar" onclick="copiarPix()">📋 Copiar</button>
+              </div>
+            </div>
           </div>
           <label>📎 Comprovante Pix (obrigatório)</label>
           <input type="file" id="comprovante" accept="image/*"/>
         </div>
 
+        <!-- CARTÃO -->
         <div id="cartaoBox" style="display:none;">
           <p class="cartao-aviso">💬 Ao finalizar, você será direcionado ao WhatsApp para concluir o pagamento.</p>
         </div>
@@ -152,6 +182,18 @@
         <button id="btn" onclick="enviarPedido()">Confirmar Pedido</button>
         <p id="msg"></p>
       </div>
+    </div>
+  </div>
+
+  <!-- TELA DE SUCESSO -->
+  <div class="sucesso-overlay" id="sucessoOverlay" style="display:none;">
+    <div class="sucesso-container">
+      <div class="sucesso-icone">✅</div>
+      <h2>Pagamento Registrado!</h2>
+      <p class="sucesso-mensagem">Seu pedido foi recebido com sucesso.</p>
+      <p class="sucesso-mensagem">Iremos entrar em contato para confirmar seu pedido pelo WhatsApp.</p>
+      <p class="sucesso-mensagem">Fique de olho no seu telefone! 📱</p>
+      <button class="btn-voltar-loja" onclick="voltarParaLojaPosSucesso()">Voltar para Loja</button>
     </div>
   </div>
 

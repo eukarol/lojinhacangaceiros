@@ -169,69 +169,6 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* ========== BANNER DE AVISO ========== */
-.banner-aviso {
-  background: var(--aviso-bg);
-  border-bottom: 1px solid var(--aviso-borda);
-  padding: 1.5rem 0;
-}
-
-.banner-aviso-conteudo {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
-.aviso-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  flex: 1;
-  min-width: 250px;
-}
-
-.aviso-icone {
-  font-size: 1.5rem;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.aviso-item strong {
-  display: block;
-  color: var(--texto);
-  font-size: 0.9rem;
-  margin-bottom: 2px;
-}
-
-.aviso-item p {
-  color: var(--texto-claro);
-  font-size: 0.78rem;
-}
-
-.btn-wpp-banner {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: #25D366;
-  color: white;
-  padding: 12px 22px;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 0.9rem;
-  white-space: nowrap;
-  transition: background 0.15s;
-  flex-shrink: 0;
-}
-
-.btn-wpp-banner:hover {
-  background: #1fb855;
-}
-
 /* ========== CONTEÚDO ========== */
 .conteudo {
   max-width: 1100px;
@@ -590,10 +527,38 @@ body {
   text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
 }
 
+.rodape-contato {
+  margin-top: 1.5rem;
+}
+
+.rodape-duvidas {
+  color: #a0947c;
+  font-size: 0.85rem;
+  margin-bottom: 0.8rem;
+}
+
+.btn-wpp-rodape {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #25D366;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: background 0.15s;
+}
+
+.btn-wpp-rodape:hover {
+  background: #1fb855;
+}
+
 .rodape-copy {
   color: #6b6050;
   font-size: 0.75rem;
-  margin-top: 0.5rem;
+  margin-top: 1.5rem;
 }
 
 /* ========== CHECKOUT OVERLAY ========== */
@@ -723,25 +688,133 @@ input[type="file"]::file-selector-button {
   font-family: 'Inter', sans-serif;
 }
 
-.pix-info {
-  background: var(--aviso-bg);
-  padding: 12px 14px;
-  border-radius: 8px;
-  margin: 8px 0 14px;
-  border-left: 3px solid var(--destaque);
-  font-size: 0.82rem;
-  line-height: 1.6;
+/* ========== CHECKBOX ========== */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
 }
 
-.pix-info p {
-  margin: 4px 0;
-  color: var(--texto-claro);
+.checkbox-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--destaque);
+  cursor: pointer;
+  flex-shrink: 0;
 }
 
-.pix-info strong {
+.checkbox-label {
+  margin-top: 0 !important;
+  cursor: pointer;
+  font-size: 0.85rem;
   color: var(--texto);
 }
 
+/* ========== AVISO REPETIR NÚMERO ========== */
+.aviso-repetir-box {
+  background: var(--aviso-bg);
+  border: 1px solid var(--aviso-borda);
+  border-left: 3px solid var(--destaque);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 0.78rem;
+  color: var(--texto-claro);
+  margin-top: 10px;
+}
+
+/* ========== PIX QR CODE ========== */
+.pix-container {
+  background: var(--bg-card);
+  border: 1px solid var(--borda-card);
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin: 8px 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.pix-qrcode {
+  text-align: center;
+}
+
+.qr-imagem {
+  width: 200px;
+  height: 200px;
+  border-radius: 12px;
+  border: 1px solid var(--borda);
+  background: white;
+  padding: 8px;
+  display: block;
+}
+
+.qr-legenda {
+  font-size: 0.75rem;
+  color: var(--texto-claro);
+  margin-top: 8px;
+}
+
+.pix-copia {
+  width: 100%;
+}
+
+.pix-titulo {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--texto);
+  margin-bottom: 8px;
+}
+
+.pix-codigo-wrapper {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.pix-codigo-wrapper code {
+  flex: 1;
+  background: var(--bg-input);
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 0.6rem;
+  color: var(--texto);
+  word-break: break-all;
+  font-family: 'Courier New', monospace;
+  line-height: 1.4;
+  max-height: 80px;
+  overflow-y: auto;
+}
+
+.btn-copiar {
+  flex-shrink: 0;
+  padding: 10px 14px;
+  background: var(--btn-bg);
+  color: var(--btn-texto);
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+  width: auto;
+  margin-top: 0;
+}
+
+.btn-copiar:hover {
+  background: var(--btn-hover);
+}
+
+.btn-copiar.copiado {
+  background: #25D366;
+  color: white;
+}
+
+/* ========== CARTÃO AVISO ========== */
 .cartao-aviso {
   background: var(--aviso-bg);
   padding: 12px 14px;
@@ -780,6 +853,68 @@ button:hover {
   color: var(--texto-claro);
 }
 
+/* ========== TELA DE SUCESSO ========== */
+.sucesso-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 250;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.sucesso-container {
+  background: var(--bg-card);
+  border: 1px solid var(--borda-card);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  text-align: center;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 8px 32px var(--sombra);
+}
+
+.sucesso-icone {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+}
+
+.sucesso-container h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--texto);
+  margin-bottom: 1rem;
+}
+
+.sucesso-mensagem {
+  color: var(--texto-claro);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.btn-voltar-loja {
+  margin-top: 2rem;
+  padding: 14px 32px;
+  background: var(--btn-bg);
+  color: var(--btn-texto);
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  font-family: 'Inter', sans-serif;
+  width: auto;
+  display: inline-block;
+}
+
+.btn-voltar-loja:hover {
+  background: var(--btn-hover);
+}
+
 /* ========== RESPONSIVO ========== */
 @media (max-width: 768px) {
   .banner-carrinho {
@@ -796,21 +931,6 @@ button:hover {
 
   .loja-header-conteudo p {
     font-size: 0.8rem;
-  }
-
-  .banner-aviso-conteudo {
-    flex-direction: column;
-    gap: 1rem;
-    padding: 0 1rem;
-  }
-
-  .aviso-item {
-    min-width: auto;
-  }
-
-  .btn-wpp-banner {
-    width: 100%;
-    justify-content: center;
   }
 
   .conteudo {
@@ -846,5 +966,13 @@ button:hover {
     right: 16px;
     width: 40px;
     height: 40px;
+  }
+  
+  .sucesso-container {
+    padding: 2rem 1.5rem;
+  }
+  
+  .sucesso-icone {
+    font-size: 3rem;
   }
 }
