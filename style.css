@@ -644,7 +644,7 @@ label {
   color: var(--texto-claro);
 }
 
-input, select {
+input, select, textarea {
   width: 100%;
   padding: 11px 14px;
   margin-top: 5px;
@@ -659,15 +659,20 @@ input, select {
   font-family: 'Inter', sans-serif;
 }
 
-input:focus, select:focus {
+input:focus, select:focus, textarea:focus {
   border-color: var(--destaque);
   box-shadow: 0 0 0 3px rgba(196, 166, 74, 0.15);
 }
 
-input::placeholder {
+input::placeholder, textarea::placeholder {
   color: var(--texto-claro);
   opacity: 0.7;
   font-weight: 400;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 60px;
 }
 
 input[type="file"] {
@@ -721,6 +726,14 @@ input[type="file"]::file-selector-button {
   font-size: 0.78rem;
   color: var(--texto-claro);
   margin-top: 10px;
+}
+
+/* ========== OPTIONS DESABILITADOS ========== */
+select option:disabled {
+  color: #999 !important;
+  background-color: transparent;
+  font-style: italic;
+  opacity: 0.6;
 }
 
 /* ========== PIX QR CODE ========== */
