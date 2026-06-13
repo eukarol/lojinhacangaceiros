@@ -5,14 +5,14 @@ let carrinho = [];
 
 // Catálogo de produtos
 const produtos = [
-  { id: "camisa-jogador", nome: "Camisa Jogador", preco: 95, img: "img/camisa-jogador.jpg", desc: "Camisa oficial de jogo" },
-  { id: "camisa-goleiro", nome: "Camisa Goleiro", preco: 95, img: "img/camisa-goleiro.jpg", desc: "Camisa exclusiva para goleiros" },
-  { id: "bandana-preta", nome: "Bandana Preta", preco: 25, img: "img/bandana-preta.jpg", desc: "Bandana preta oficial" },
-  { id: "bandana-laranja", nome: "Bandana Laranja", preco: 25, img: "img/bandana-laranja.jpg", desc: "Bandana laranja oficial" },
-  { id: "tirante", nome: "Tirante", preco: 15, img: "img/tirante.jpg", desc: "Tirante elástico" },
-  { id: "kit", nome: "Kit", preco: 40, img: "img/kit.jpg", desc: "Kit completo de acessórios" },
-  { id: "kit-atleta", nome: "Kit Atleta", preco: 150, img: "img/kit-atleta.jpg", desc: "Kit exclusivo para atletas" },
-  { id: "bucket", nome: "Bucket", preco: 30, img: "img/bucket.jpg", desc: "Bucket personalizado" }
+  { id: "camisa-jogador", nome: "Camisa Jogador", preco: 95, img: "img/camisa-jogador.jpg", desc: "Camisa oficial de jogo", ehCamisa: true },
+  { id: "camisa-goleiro", nome: "Camisa Goleiro", preco: 95, img: "img/camisa-goleiro.jpg", desc: "Camisa exclusiva para goleiros", ehCamisa: true },
+  { id: "bandana-preta", nome: "Bandana Preta", preco: 25, img: "img/bandana-preta.jpg", desc: "Bandana preta oficial", ehCamisa: false },
+  { id: "bandana-laranja", nome: "Bandana Laranja", preco: 25, img: "img/bandana-laranja.jpg", desc: "Bandana laranja oficial", ehCamisa: false },
+  { id: "tirante", nome: "Tirante", preco: 15, img: "img/tirante.jpg", desc: "Tirante elástico", ehCamisa: false },
+  { id: "kit", nome: "Kit", preco: 40, img: "img/kit.jpg", desc: "Kit completo de acessórios", ehCamisa: false },
+  { id: "kit-atleta", nome: "Kit Atleta", preco: 150, img: "img/kit-atleta.jpg", desc: "Kit exclusivo para atletas", ehCamisa: true },
+  { id: "bucket", nome: "Bucket", preco: 30, img: "img/bucket.jpg", desc: "Bucket personalizado", ehCamisa: false }
 ];
 
 /* ========== INIT ========== */
@@ -32,11 +32,28 @@ function toggleTema() {
   html.setAttribute("data-theme", temaAtual === "dark" ? "light" : "dark");
 }
 
+/* ========== VERIFICA SE O CARRINHO TEM CAMISA ========== */
+function carrinhoTemCamisa() {
+  return carrinho.some(item => item.ehCamisa);
+}
+
 /* ========== TOGGLE ATLETA ========== */
 function toggleAtleta() {
   const souAtleta = document.getElementById("souAtleta").checked;
-  document.getElementById("camposAtleta").style.display = souAtleta ? "block" : "none";
-  document.getElementById("camposNaoAtleta").style.display = souAtleta ? "none" : "block";
+  const temCamisa = carrinhoTemCamisa();
+  
+  // Só mostra campos de atleta se tiver camisa no carrinho
+  document.getElementById("camposAtleta").style.display = (souAtleta && temCamisa) ? "block" : "none";
+  document.getElementById("camposNaoAtleta").style.display = (souAtleta && temCamisa) ? "none" : "block";
+  
+  // Se não tem camisa, esconde tudo relacionado a camisa
+  if (!temCamisa) {
+    document.getElementById("camposAtleta").style.display = "none";
+    document.getElementById("camposNaoAtleta").style.display = "none";
+    document.getElementById("souAtleta").parentElement.style.display = "none";
+  } else {
+    document.getElementById("souAtleta").parentElement.style.display = "flex";
+  }
   
   if (!souAtleta) {
     document.getElementById("repetirNumero").checked = false;
@@ -227,6 +244,7 @@ function irParaCheckout() {
 
   const checkoutResumo = document.getElementById("checkoutResumo");
   const subtotal = carrinho.reduce((s, c) => s + (c.preco * c.qtd), 0);
+  const temCamisa = carrinhoTemCamisa();
 
   checkoutResumo.innerHTML = carrinho.map(c => `
     <div class="checkout-item-resumo">
@@ -243,9 +261,53 @@ function irParaCheckout() {
   document.getElementById("checkoutOverlay").style.display = "block";
   document.getElementById("checkoutOverlay").scrollIntoView({ behavior: "smooth" });
   
+  // Mostra/esconde campos baseado se tem camisa
+  mostrarCamposCamisa(temCamisa);
+  
   toggleAtleta();
   carregarNumeros();
   carregarNumerosNaoAtleta();
+}
+
+function mostrarCamposCamisa(temCamisa) {
+  const camposCamisa = [
+    "souAtleta",
+    "camposAtleta",
+    "camposNaoAtleta",
+    "tamanho",
+    "nomeCamisa"
+  ];
+  
+  // Checkbox de atleta
+  const checkboxAtleta = document.getElementById("souAtleta").parentElement;
+  checkboxAtleta.style.display = temCamisa ? "flex" : "none";
+  
+  // Campos de atleta/não atleta
+  document.getElementById("camposAtleta").style.display = temCamisa ? "block" : "none";
+  document.getElementById("camposNaoAtleta").style.display = temCamisa ? "block" : "none";
+  
+  // Label e select de tamanho
+  const labelTamanho = document.querySelector("label[for='tamanho']") || document.getElementById("tamanho").previousElementSibling;
+  if (labelTamanho) labelTamanho.style.display = temCamisa ? "block" : "none";
+  document.getElementById("tamanho").style.display = temCamisa ? "block" : "none";
+  document.getElementById("tamanho").parentElement.querySelector("label").style.display = temCamisa ? "block" : "none";
+  
+  // Label e input de nome na camisa
+  const labelNomeCamisa = document.querySelector("label[for='nomeCamisa']") || document.getElementById("nomeCamisa").previousElementSibling;
+  if (labelNomeCamisa) labelNomeCamisa.style.display = temCamisa ? "block" : "none";
+  document.getElementById("nomeCamisa").style.display = temCamisa ? "block" : "none";
+  
+  // Ajusta labels anteriores
+  const labels = document.querySelectorAll(".card > label");
+  labels.forEach(label => {
+    const input = label.nextElementSibling;
+    if (input && input.id === "tamanho") {
+      label.style.display = temCamisa ? "block" : "none";
+    }
+    if (input && input.id === "nomeCamisa") {
+      label.style.display = temCamisa ? "block" : "none";
+    }
+  });
 }
 
 function voltarParaLoja() {
@@ -340,27 +402,33 @@ async function enviarPedido() {
   const msg = document.getElementById("msg");
   const nome = document.getElementById("nome").value.trim();
   const telefone = document.getElementById("telefone").value.trim();
-  const souAtleta = document.getElementById("souAtleta").checked;
-  const repetirNumero = document.getElementById("repetirNumero").checked;
-  const nomeCamisa = document.getElementById("nomeCamisa").value.trim();
-  const tamanho = document.getElementById("tamanho").value;
+  const temCamisa = carrinhoTemCamisa();
+  const souAtleta = temCamisa ? document.getElementById("souAtleta").checked : false;
+  const repetirNumero = temCamisa ? document.getElementById("repetirNumero").checked : false;
+  const nomeCamisa = temCamisa ? document.getElementById("nomeCamisa").value.trim() : "";
+  const tamanho = temCamisa ? document.getElementById("tamanho").value : "Não se aplica";
   const observacao = document.getElementById("observacao").value.trim();
   const pagamento = document.getElementById("pagamento").value;
 
   let categoria, numero;
   
-  if (souAtleta) {
-    if (repetirNumero) {
-      categoria = document.getElementById("categoria").value;
-      numero = Number(document.getElementById("numeroRepetir").value);
+  if (temCamisa) {
+    if (souAtleta) {
+      if (repetirNumero) {
+        categoria = document.getElementById("categoria").value;
+        numero = Number(document.getElementById("numeroRepetir").value);
+      } else {
+        categoria = document.getElementById("categoria").value;
+        numero = Number(document.getElementById("numero").value);
+      }
     } else {
-      categoria = document.getElementById("categoria").value;
-      numero = Number(document.getElementById("numero").value);
+      categoria = document.getElementById("categoriaNaoAtleta").value || "Não informado";
+      const numNaoAtleta = document.getElementById("numeroNaoAtleta").value;
+      numero = numNaoAtleta || 0;
     }
   } else {
-    categoria = document.getElementById("categoriaNaoAtleta").value || "Não informado";
-    const numNaoAtleta = document.getElementById("numeroNaoAtleta").value;
-    numero = numNaoAtleta || 0;
+    categoria = "Não se aplica";
+    numero = 0;
   }
 
   if (!nome || !telefone) {
@@ -414,14 +482,13 @@ async function enviarPedido() {
         document.getElementById("nomeCamisa").value = "";
         document.getElementById("observacao").value = "";
         
-        // Monta mensagem para WhatsApp com dados do pedido
         const mensagemWpp = `Olá! Finalizei meu pedido na Lojinha Cangaceiros e quero pagar com cartão.%0A%0A` +
           `*Nome:* ${nome}%0A` +
           `*Telefone:* ${telefone}%0A` +
           `*Produtos:* ${produtosPedido}%0A` +
-          `*Tamanho:* ${tamanho}%0A` +
-          `*Número:* ${numero !== 0 ? numero : 'Não se aplica'}%0A` +
-          `*Nome na camisa:* ${nomeCamisa || 'Não informado'}%0A` +
+          (temCamisa ? `*Tamanho:* ${tamanho}%0A` : "") +
+          (temCamisa ? `*Número:* ${numero !== 0 ? numero : 'Não se aplica'}%0A` : "") +
+          (temCamisa ? `*Nome na camisa:* ${nomeCamisa || 'Não informado'}%0A` : "") +
           `*Observação:* ${observacao || 'Nenhuma'}%0A` +
           `*Total:* R$ ${totalPedido.toFixed(2)}%0A%0A` +
           `Aguardo contato para finalizar o pagamento! 🦎`;
