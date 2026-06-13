@@ -5,13 +5,13 @@ let carrinho = [];
 
 // Catálogo de produtos
 const produtos = [
+   { id: "kit-atleta", nome: "Kit Atleta", preco: 150, img: "img/kit-atleta.jpg", desc: "Kit exclusivo para atletas", ehCamisa: true },
   { id: "camisa-jogador", nome: "Camisa Jogador", preco: 95, img: "img/camisa-jogador.jpg", desc: "Camisa oficial de jogo", ehCamisa: true },
   { id: "camisa-goleiro", nome: "Camisa Goleiro", preco: 95, img: "img/camisa-goleiro.jpg", desc: "Camisa exclusiva para goleiros", ehCamisa: true },
   { id: "bandana-preta", nome: "Bandana Preta", preco: 25, img: "img/bandana-preta.jpg", desc: "Bandana preta oficial", ehCamisa: false },
   { id: "bandana-laranja", nome: "Bandana Laranja", preco: 25, img: "img/bandana-laranja.jpg", desc: "Bandana laranja oficial", ehCamisa: false },
   { id: "tirante", nome: "Tirante", preco: 15, img: "img/tirante.jpg", desc: "Tirante para canecas", ehCamisa: false },
   { id: "kit", nome: "Kit Caneca + Tirante", preco: 40, img: "img/kit.jpg", desc: "Kit completo de acessórios", ehCamisa: false },
-  { id: "kit-atleta", nome: "Kit Atleta", preco: 150, img: "img/kit-atleta.jpg", desc: "Kit exclusivo para atletas", ehCamisa: true },
   { id: "bucket", nome: "Bucket", preco: 30, img: "img/bucket.jpg", desc: "Bucket personalizado", ehCamisa: false }
 ];
 
