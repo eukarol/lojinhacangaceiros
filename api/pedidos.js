@@ -1,15 +1,31 @@
 export default async function handler(req, res) {
+  const url = process.env.API_CANGACEIROS;
+
   try {
-    const url = process.env.API_CANGACEIROS;
+    const options = {
+      method: req.method,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
 
-    const resposta = await fetch(url);
-    const dados = await resposta.json();
+    if (req.method !== "GET") {
+      options.body = JSON.stringify(req.body);
+    }
 
-    res.status(200).json(dados);
+    const resposta = await fetch(url, options);
+
+    const texto = await resposta.text();
+
+    res.setHeader("Content-Type", "application/json");
+    res.status(200).send(texto);
 
   } catch (erro) {
+    console.error(erro);
+
     res.status(500).json({
-      erro: "Falha ao buscar dados"
+      sucesso: false,
+      mensagem: erro.message
     });
   }
 }
